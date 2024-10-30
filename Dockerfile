@@ -1,8 +1,6 @@
-# Use the official Node.js 16 image as the base image
-FROM node:16
+FROM node:latest
 RUN npm config set registry https://registry.npmjs.org/
 RUN npm cache clean --force
-
 # Install necessary dependencies for running Chrome
 RUN apt-get update && apt-get install -y \
     wget \
@@ -18,6 +16,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && apt-get update \
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Set up the working directory in the container
 WORKDIR /app

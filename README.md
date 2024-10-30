@@ -1,78 +1,69 @@
 # Puppeteer Scraper
 
-This project allows you to scrape web pages using Puppeteer wrapped in a Docker container. It supports two modes:
-
-- **Command-Line Mode**: Scrape a single URL and output the HTML to the console.
-- **HTTP Server Mode**: Run an HTTP server that accepts POST requests to scrape URLs.
+This project allows you to scrape web pages using Puppeteer wrapped in a Docker container. It supports two modes: **Command-Line Mode** & **HTTP Server Mode**
 
 ## Usage
 
 ### Pull the Docker Image
 
 ```bash
-docker pull your_dockerhub_username/puppeteer-scraper:latest
+docker pull ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest
 ```
 
 ### Command-Line Mode
 
 Scrape a URL and output the HTML to the console:
 
+Usage:
 ```bash
-docker run your_dockerhub_username/puppeteer-scraper:latest http://example.com
+docker run ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest http://example.com
+```
+
+Usage:
+```python
+import subprocess
+
+def scrape_url(url):
+    # Run the docker container, passing the URL as an argument
+    result = subprocess.run(
+        ['docker', 'run', 'my-scraper-image', url],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    # Handle errors
+    if result.returncode != 0:
+        print(f"Error: {result.stderr}")
+        return None
+    html_output = result.stdout
+    return html_output
+
+html_content = print(scrape_url('http://example.com'))
 ```
 
 ### HTTP Server Mode
 
-Run the HTTP server:
-
+Run an HTTP server that accepts POST requests to scrape URLs:
 ```bash
-docker run -p 3000:3000 your_dockerhub_username/puppeteer-scraper:latest serve
+docker run -p 3000:3000 ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest serve
 ```
 
-Send a POST request to `/scrape` with a JSON body containing the `url`:
-
+Usage:
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"url":"http://example.com"}' http://localhost:3000/scrape
 ```
 
-## Development
+Usage:
+```python
+import requests
 
-### Running Locally
+def scrape_url_via_api(url):
+    response = requests.post('http://localhost:3000/scrape', json={'url': url})
+    if response.status_code == 200:
+        return response.text
+    else:
+        print(f"Error: {response.status_code} {response.text}")
+        return None
 
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/your_username/puppeteer-scraper.git
-cd puppeteer-scraper
-npm install
+print(scrape_url_via_api('http://example.com'))
 ```
-
-Run in command-line mode:
-
-```bash
-node scrape.js http://example.com
-```
-
-Run in HTTP server mode:
-
-```bash
-node serve-scraper.js
-```
-
-### Building the Docker Image
-
-```bash
-docker build -t puppeteer-scraper .
-```
-
-### Running the Docker Container
-
-Refer to the usage instructions above.
-
-## Contributing
-
-Feel free to open issues or submit pull requests.
-
-## License
-
-[MIT](LICENSE)
