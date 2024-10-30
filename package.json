@@ -1,0 +1,16 @@
+{
+  "name": "puppeteer-scraper",
+  "version": "1.0.0",
+  "description": "Scrape a URL using puppeteer-real-browser",
+  "main": "scrape.js",
+  "scripts": {
+    "start": "node scrape.js",
+    "serve": "node serve-scraper.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "puppeteer-real-browser": "^1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
