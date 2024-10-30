@@ -18,7 +18,7 @@ jobs:
       - name: Test Console Mode
         run: |
           echo "Testing console mode..."
-          docker run --rm puppeteer-scraper:latest https://www.example.com > output.html
+          docker run --rm ${{ github.repository }}:latest https://www.example.com > output.html
           if grep -q "<title>Example Domain</title>" output.html; then
             echo "Console mode test passed."
           else
@@ -29,10 +29,10 @@ jobs:
       - name: Test HTTP Server Mode
         run: |
           echo "Testing HTTP server mode..."
-          docker run -d --name puppeteer-scraper -p 3000:3000 puppeteer-scraper:latest serve
+          docker run -d --name ${{ github.repository }} -p 3000:3000 puppeteer-scraper:latest serve
           sleep 15
           RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d '{"url":"https://www.example.com"}' http://localhost:3000/scrape)
-          docker stop puppeteer-scraper
+          docker stop ${{ github.repository }}
           if echo "$RESPONSE" | grep -q "<title>Example Domain</title>"; then
             echo "HTTP server mode test passed."
           else
