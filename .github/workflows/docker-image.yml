@@ -8,7 +8,7 @@ jobs:
   docker_publish:
     runs-on: "ubuntu-20.04"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build and publish a Docker image for ${{ github.repository }}
         uses: macbre/push-to-ghcr@master # https://github.com/marketplace/actions/push-to-ghcr
         with:
@@ -29,10 +29,9 @@ jobs:
       - name: Test HTTP Server Mode
         run: |
           echo "Testing HTTP server mode..."
-          docker run -d --name ghcr.io/${{ github.repository }} -p 3000:3000 puppeteer-scraper:latest serve
+          docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}:latest serve
           sleep 15
           RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d '{"url":"https://www.example.com"}' http://localhost:3000/scrape)
-          docker stop ${{ github.repository }}
           if echo "$RESPONSE" | grep -q "<title>Example Domain</title>"; then
             echo "HTTP server mode test passed."
           else
