@@ -30,9 +30,8 @@ jobs:
         run: |
           echo "Testing HTTP server mode..."
           docker run --name testcontainer -d -p 3000:3000 ghcr.io/${{ github.repository }}:latest serve
-          sleep 30
+          sleep 10
           RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d '{"url":"https://www.example.com"}' http://localhost:3000/scrape)
-          echo $RESPONSE
           docker stop testcontainer
           if echo "$RESPONSE" | grep -q "<title>Example Domain</title>"; then
             echo "HTTP server mode test passed."
