@@ -1,3 +1,4 @@
+import {setTimeout} from "node:timers/promises";
 const express = require('express');
 const { connect } = require("puppeteer-real-browser");
 
@@ -20,7 +21,7 @@ app.post('/scrape', async (req, res) => {
             ignoreAllFlags: false
         });
         await page.goto(url);
-        await page.waitForTimeout(2000);
+        await setTimeout(2000);
         const html = await page.content();
         await browser.close();
         res.send(html);
