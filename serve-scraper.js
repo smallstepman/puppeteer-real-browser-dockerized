@@ -1,6 +1,6 @@
-import {setTimeout} from "node:timers/promises";
-const express = require('express');
-const { connect } = require("puppeteer-real-browser");
+import { setTimeout } from "node:timers/promises";
+import { express } from "express";
+import { connect } from "puppeteer-real-browser";
 
 const app = express();
 app.use(express.json()); // For parsing application/json

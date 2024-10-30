@@ -1,5 +1,5 @@
-import {setTimeout} from "node:timers/promises";
-const { connect } = require("puppeteer-real-browser");
+import { setTimeout } from "node:timers/promises";
+import { connect } from "puppeteer-real-browser";
 
 async function scrape(url) {
     const { browser, page } = await connect({
