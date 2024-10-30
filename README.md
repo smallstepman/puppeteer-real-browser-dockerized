@@ -24,19 +24,20 @@ Usage (python):
 import subprocess
 
 def scrape_url(url):
-    # Run the docker container, passing the URL as an argument
-    result = subprocess.run(
-        ['docker', 'run', 'ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest', url],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
-    # Handle errors
-    if result.returncode != 0:
-        print(f"Error: {result.stderr}")
-        return None
-    html_output = result.stdout
-    return html_output
+    try:
+        result = subprocess.run(
+            ['docker', 'run', 'ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest', url],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+            timeout=5
+        )
+    except subprocess.CalledProcessError as e:
+        print(e)  
+    else: 
+        html_output = result.stdout
+        return html_output
 
 print(scrape_url('http://example.com'))
 ```
@@ -58,11 +59,8 @@ import requests
 
 def scrape_url_via_api(url):
     response = requests.post('http://localhost:3000/scrape', json={'url': url})
-    if response.status_code == 200:
-        return response.text
-    else:
-        print(f"Error: {response.status_code} {response.text}")
-        return None
+    response.raise_for_status()
+    return response.text
 
 print(scrape_url_via_api('http://example.com'))
 ```
