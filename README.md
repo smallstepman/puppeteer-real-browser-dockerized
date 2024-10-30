@@ -1,17 +1,17 @@
-# Puppeteer Scraper
+# Puppeteer Real Browser Scraper
 
 This project allows you to scrape web pages using Puppeteer wrapped in a Docker container. It supports two modes: **Command-Line Mode** & **HTTP Server Mode**
 
-## Usage
+## Installation 
 
-### Pull the Docker Image
-
+Pull the Docker Image:
 ```bash
 docker pull ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest
 ```
 
-### Command-Line Mode
+## Usage
 
+### Command-Line Mode
 Scrape a URL and output the HTML to the console:
 
 Usage:
@@ -42,7 +42,6 @@ html_content = print(scrape_url('http://example.com'))
 ```
 
 ### HTTP Server Mode
-
 Run an HTTP server that accepts POST requests to scrape URLs:
 ```bash
 docker run -p 3000:3000 ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest serve
