@@ -14,12 +14,12 @@ docker pull ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest
 ### Command-Line Mode
 Scrape a URL and output the HTML to the console:
 
-Usage:
+Usage (console):
 ```bash
 docker run ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest http://example.com
 ```
 
-Usage:
+Usage (python):
 ```python
 import subprocess
 
@@ -47,12 +47,12 @@ Run an HTTP server that accepts POST requests to scrape URLs:
 docker run -p 3000:3000 ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest serve
 ```
 
-Usage:
+Usage (console):
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"url":"http://example.com"}' http://localhost:3000/scrape
 ```
 
-Usage:
+Usage (python):
 ```python
 import requests
 
