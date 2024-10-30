@@ -26,7 +26,7 @@ import subprocess
 def scrape_url(url):
     # Run the docker container, passing the URL as an argument
     result = subprocess.run(
-        ['docker', 'run', 'my-scraper-image', url],
+        ['docker', 'run', 'ghcr.io/smallstepman/puppeteer-real-browser-dockerized:latest', url],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True
@@ -38,7 +38,7 @@ def scrape_url(url):
     html_output = result.stdout
     return html_output
 
-html_content = print(scrape_url('http://example.com'))
+print(scrape_url('http://example.com'))
 ```
 
 ### HTTP Server Mode
