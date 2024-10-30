@@ -14,3 +14,28 @@ jobs:
         with:
           image_name: ${{ github.repository }}  # it will be lowercased internally
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test Console Mode
+        run: |
+          echo "Testing console mode..."
+          docker run --rm puppeteer-scraper:latest https://www.example.com > output.html
+          if grep -q "<title>Example Domain</title>" output.html; then
+            echo "Console mode test passed."
+          else
+            echo "Console mode test failed."
+            exit 1
+          fi
+
+      - name: Test HTTP Server Mode
+        run: |
+          echo "Testing HTTP server mode..."
+          docker run -d --name puppeteer-scraper -p 3000:3000 puppeteer-scraper:latest serve
+          sleep 15
+          RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d '{"url":"https://www.example.com"}' http://localhost:3000/scrape)
+          docker stop puppeteer-scraper
+          if echo "$RESPONSE" | grep -q "<title>Example Domain</title>"; then
+            echo "HTTP server mode test passed."
+          else
+            echo "HTTP server mode test failed."
+            exit 1
+          fi
