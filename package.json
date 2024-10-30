@@ -1,5 +1,6 @@
 {
   "name": "puppeteer-scraper",
+  "type": "module",
   "version": "1.0.0",
   "description": "Scrape a URL using puppeteer-real-browser",
   "main": "scrape.js",
